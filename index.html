@@ -9,93 +9,84 @@
 <title>Shadowing Player</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#ffffff;--bg2:#f5f5f5;--bg3:#ebebeb;
+  --text:#111111;--muted:#888888;--border:#e0e0e0;
+  --accent:#111111;--accent-fg:#ffffff;
+  --info-bg:#e8f0fe;--info-text:#1a56db;--info-border:#b3c8fa;
+}
+@media(prefers-color-scheme:dark){
   :root{
-    --bg:#ffffff;--bg2:#f5f5f5;--bg3:#ebebeb;
-    --text:#111111;--muted:#888888;--border:#e0e0e0;
-    --accent:#111111;--accent-fg:#ffffff;
-    --info-bg:#e8f0fe;--info-text:#1a56db;--info-border:#b3c8fa;
+    --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
+    --text:#f0f0f0;--muted:#888888;--border:#333333;
+    --accent:#f0f0f0;--accent-fg:#1a1a1a;
+    --info-bg:#1e2a45;--info-text:#7aadff;--info-border:#2d4a80;
   }
-  @media(prefers-color-scheme:dark){
-    :root{
-      --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
-      --text:#f0f0f0;--muted:#888888;--border:#333333;
-      --accent:#f0f0f0;--accent-fg:#1a1a1a;
-      --info-bg:#1e2a45;--info-text:#7aadff;--info-border:#2d4a80;
-    }
-  }
-  html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif}
-  #app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif}
+#app{max-width:480px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 
-  /* HEADER */
-  .header{padding:16px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
-  .header-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .header-icon i{color:var(--accent-fg);font-size:18px}
-  .header-text h1{font-size:16px;font-weight:600;color:var(--text)}
-  .header-text p{font-size:11px;color:var(--muted);margin-top:1px}
+.header{padding:16px 16px 12px;border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:10px}
+.header-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.header-icon i{color:var(--accent-fg);font-size:18px}
+.header-text h1{font-size:16px;font-weight:600;color:var(--text)}
+.header-text p{font-size:11px;color:var(--muted);margin-top:1px}
+.updated{font-size:10px;color:var(--muted);padding:4px 16px;background:var(--bg2);border-bottom:0.5px solid var(--border)}
 
-  /* TABS */
-  .tabs{display:flex;padding:12px 16px 0;gap:6px}
-  .tab{font-size:13px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all 0.15s}
-  .tab.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.tabs{display:flex;padding:12px 16px 0;gap:6px}
+.tab{font-size:13px;padding:6px 14px;border-radius:20px;border:0.5px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all 0.15s}
+.tab.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
 
-  /* EPISODE LIST */
-  #list-view{flex:1;overflow-y:auto}
-  .ep-list{padding:8px 0}
-  .ep-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.12s}
-  .ep-item:active{background:var(--bg2)}
-  .ep-num{font-size:11px;color:var(--muted);min-width:22px;text-align:right;flex-shrink:0}
-  .ep-info{flex:1;min-width:0}
-  .ep-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ep-date{font-size:11px;color:var(--muted);margin-top:2px}
-  .ep-arrow{font-size:16px;color:var(--border);flex-shrink:0}
-  .loading{padding:2rem;text-align:center;font-size:13px;color:var(--muted)}
-  .err{margin:16px;padding:12px;font-size:12px;color:#c0392b;background:#fdecea;border-radius:10px;line-height:1.5}
+#list-view{flex:1;overflow-y:auto}
+.ep-list{padding:8px 0}
+.ep-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background 0.12s}
+.ep-item:active{background:var(--bg2)}
+.ep-num{font-size:11px;color:var(--muted);min-width:22px;text-align:right;flex-shrink:0}
+.ep-info{flex:1;min-width:0}
+.ep-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ep-date{font-size:11px;color:var(--muted);margin-top:2px}
+.ep-arrow{font-size:16px;color:var(--border);flex-shrink:0}
+.loading{padding:2rem;text-align:center;font-size:13px;color:var(--muted)}
+.err{margin:16px;padding:12px;font-size:12px;color:#c0392b;background:#fdecea;border-radius:10px;line-height:1.6}
 
-  /* PLAYER */
-  #player-view{display:none;flex-direction:column;flex:1;overflow-y:auto}
-  #player-view.visible{display:flex}
+#player-view{display:none;flex-direction:column;flex:1;overflow-y:auto}
+#player-view.visible{display:flex}
 
-  .player-header{display:flex;align-items:center;gap:8px;padding:14px 16px 12px;border-bottom:0.5px solid var(--border)}
-  .back-btn{background:none;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px;font-size:13px;font-family:inherit;padding:0;flex-shrink:0}
-  .back-btn i{font-size:18px}
-  .now-title{font-size:13px;font-weight:500;color:var(--text);flex:1;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.player-header{display:flex;align-items:center;gap:8px;padding:14px 16px 12px;border-bottom:0.5px solid var(--border)}
+.back-btn{background:none;border:none;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:4px;font-size:13px;font-family:inherit;padding:0;flex-shrink:0}
+.back-btn i{font-size:18px}
+.now-title{font-size:13px;font-weight:500;color:var(--text);flex:1;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 
-  .player-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.player-body{padding:16px;display:flex;flex-direction:column;gap:14px}
 
-  /* PROGRESS */
-  .progress-wrap{position:relative;height:44px;cursor:pointer;display:flex;align-items:center}
-  .progress-bg{position:absolute;left:0;right:0;height:3px;background:var(--border);border-radius:2px}
-  .progress-ab{position:absolute;height:3px;background:var(--info-bg);border:0.5px solid var(--info-border);border-radius:2px;display:none}
-  .progress-fill{position:absolute;left:0;height:3px;background:var(--accent);border-radius:2px;width:0%}
-  .progress-thumb{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--accent);left:0;transform:translateX(-50%);top:50%;margin-top:-8px}
-  .time-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:-8px}
+.progress-wrap{position:relative;height:44px;cursor:pointer;display:flex;align-items:center}
+.progress-bg{position:absolute;left:0;right:0;height:3px;background:var(--border);border-radius:2px}
+.progress-ab{position:absolute;height:3px;background:var(--info-bg);border:0.5px solid var(--info-border);border-radius:2px;display:none}
+.progress-fill{position:absolute;left:0;height:3px;background:var(--accent);border-radius:2px;width:0%}
+.progress-thumb{position:absolute;width:16px;height:16px;border-radius:50%;background:var(--accent);left:0;transform:translateX(-50%);top:50%;margin-top:-8px}
+.time-row{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:-8px}
 
-  /* SPEED */
-  .ctrl-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
-  .speed-btns{display:flex;gap:6px}
-  .spd-btn{font-size:12px;padding:6px 0;flex:1;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all 0.15s}
-  .spd-btn.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-weight:500}
+.ctrl-label{font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+.speed-btns{display:flex;gap:6px}
+.spd-btn{font-size:12px;padding:6px 0;flex:1;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;transition:all 0.15s}
+.spd-btn.active{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-weight:500}
 
-  /* AB REPEAT */
-  .ab-row{display:flex;gap:6px;align-items:center}
-  .ab-btn{font-size:12px;padding:7px 16px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;font-family:inherit;transition:all 0.15s;font-weight:500}
-  .ab-btn.set{background:var(--info-bg);color:var(--info-text);border-color:var(--info-border)}
-  .ab-clear{font-size:12px;padding:7px 12px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;margin-left:auto}
+.ab-row{display:flex;gap:6px;align-items:center}
+.ab-btn{font-size:12px;padding:7px 16px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer;font-family:inherit;transition:all 0.15s;font-weight:500}
+.ab-btn.set{background:var(--info-bg);color:var(--info-text);border-color:var(--info-border)}
+.ab-clear{font-size:12px;padding:7px 12px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;margin-left:auto}
 
-  /* NATIVE AUDIO (fallback) */
-  .audio-native{width:100%}
-  audio{width:100%;border-radius:8px;height:40px}
+.audio-native{width:100%}
+audio{width:100%;border-radius:8px;height:40px}
 
-  /* SCRIPT */
-  .script-header{display:flex;align-items:center;justify-content:space-between}
-  .script-toggle{font-size:12px;padding:4px 10px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit}
-  .script-box{background:var(--bg2);border-radius:10px;padding:14px;font-size:14px;line-height:1.8;color:var(--text);border:0.5px solid var(--border);max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-  .script-box.hidden{display:none}
-  .script-empty{color:var(--muted);font-style:italic;font-size:13px}
+.script-header{display:flex;align-items:center;justify-content:space-between}
+.script-toggle{font-size:12px;padding:4px 10px;border:0.5px solid var(--border);border-radius:8px;background:transparent;color:var(--muted);cursor:pointer;font-family:inherit}
+.script-box{background:var(--bg2);border-radius:10px;padding:14px;font-size:14px;line-height:1.8;color:var(--text);border:0.5px solid var(--border);max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.script-box.hidden{display:none}
+.script-empty{color:var(--muted);font-style:italic;font-size:13px}
 
-  /* DIVIDER */
-  .divider{height:0.5px;background:var(--border)}
+.divider{height:0.5px;background:var(--border)}
 </style>
 </head>
 <body>
@@ -107,6 +98,7 @@
       <p>CNN 10 · VOA Learning English</p>
     </div>
   </div>
+  <div class="updated" id="updated-label"></div>
 
   <div class="tabs">
     <button class="tab active" onclick="switchSource('cnn',this)">CNN 10</button>
@@ -127,7 +119,6 @@
       <div class="now-title" id="now-title"></div>
     </div>
     <div class="player-body">
-
       <div>
         <div class="progress-wrap" id="prog-wrap">
           <div class="progress-bg"></div>
@@ -178,58 +169,55 @@
           <span class="script-empty">Select an episode to begin.</span>
         </div>
       </div>
-
     </div>
   </div>
 </div>
 
 <script>
-const PROXY = 'https://api.allorigins.win/raw?url=';
-const FEEDS = {
-  cnn:  'https://podcasts.files.bbci.co.uk/p02nq0gn.rss',
-  voa:  'https://learningenglish.voanews.com/podcast/?zoneId=1689'
-};
-
+let allFeeds = {};
 let currentSrc = 'cnn';
 let episodes = [];
 let abA = null, abB = null;
 let scriptVisible = true;
 const audio = document.getElementById('player');
 
+async function init() {
+  try {
+    const res = await fetch('feeds.json?t=' + Date.now());
+    if (!res.ok) throw new Error('feeds.json not found');
+    allFeeds = await res.json();
+    const label = document.getElementById('updated-label');
+    if (allFeeds.updated) {
+      const d = new Date(allFeeds.updated);
+      label.textContent = '最終更新: ' + d.toLocaleString('ja-JP', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    }
+    loadSource('cnn');
+  } catch(e) {
+    document.getElementById('ep-list').innerHTML =
+      `<div class="err">feeds.json が見つかりません。<br>GitHub Actions を手動実行してください。<br><small>${e.message}</small></div>`;
+  }
+}
+
 function switchSource(src, el) {
   currentSrc = src;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   showList();
-  loadFeed(src);
+  loadSource(src);
 }
 
-async function loadFeed(src) {
-  const list = document.getElementById('ep-list');
-  list.innerHTML = '<div class="loading">Loading...</div>';
-  try {
-    const url = FEEDS[src];
-    const res = await fetch(PROXY + encodeURIComponent(url));
-    if (!res.ok) throw new Error('network');
-    const text = await res.text();
-    const xml = new DOMParser().parseFromString(text, 'text/xml');
-    const items = [...xml.querySelectorAll('item')].slice(0, 12);
-    episodes = items.map(item => ({
-      title: item.querySelector('title')?.textContent?.trim() || 'Episode',
-      audioUrl: item.querySelector('enclosure')?.getAttribute('url') || '',
-      pubDate: item.querySelector('pubDate')?.textContent || '',
-      desc: (item.querySelector('description')?.textContent || '').replace(/<[^>]+>/g,'').trim()
-    }));
-    renderList();
-  } catch(e) {
-    list.innerHTML = `<div class="err">フィードを読み込めませんでした。<br>ネットワーク接続を確認してください。<br><br><small>${e.message}</small></div>`;
-  }
+function loadSource(src) {
+  episodes = allFeeds[src] || [];
+  renderList();
 }
 
 function renderList() {
   const list = document.getElementById('ep-list');
+  if (!episodes.length) {
+    list.innerHTML = '<div class="loading">エピソードがありません</div>';
+    return;
+  }
   list.innerHTML = '';
-  if (!episodes.length) { list.innerHTML = '<div class="loading">エピソードが見つかりません</div>'; return; }
   episodes.forEach((ep, i) => {
     const d = document.createElement('div');
     d.className = 'ep-item';
@@ -256,12 +244,12 @@ function openEpisode(i) {
   document.getElementById('now-title').textContent = ep.title;
   const box = document.getElementById('script-box');
   if (ep.desc && ep.desc.length > 60) {
-    box.innerHTML = ep.desc;
+    box.textContent = ep.desc;
   } else {
     box.innerHTML = '<span class="script-empty">スクリプトはこのエピソードでは利用できません。</span>';
   }
   showPlayer();
-  audio.play().catch(() => {});
+  audio.play().catch(()=>{});
 }
 
 function showPlayer() {
@@ -282,7 +270,7 @@ function setSpeed(s, el) {
 }
 
 function fmt(t) {
-  if (isNaN(t)) return '0:00';
+  if (isNaN(t) || t < 0) return '0:00';
   const m = Math.floor(t/60), s = Math.floor(t%60);
   return m + ':' + (s<10?'0':'') + s;
 }
@@ -346,14 +334,13 @@ audio.addEventListener('timeupdate', () => {
   }
 });
 
-const progWrap = document.getElementById('prog-wrap');
-progWrap.addEventListener('click', e => {
-  const rect = progWrap.getBoundingClientRect();
+document.getElementById('prog-wrap').addEventListener('click', e => {
+  const rect = document.getElementById('prog-wrap').getBoundingClientRect();
   const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
   if (audio.duration) audio.currentTime = pct * audio.duration;
 });
 
-loadFeed('cnn');
+init();
 </script>
 </body>
 </html>
